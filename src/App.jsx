@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TonConnectButton, useTonAddress,useTonConnectUI  } from '@tonconnect/ui-react';
 
-import './Apps.css';
+import './App.css';
 
 function App() {
     const [tonConnectUI] = useTonConnectUI();
