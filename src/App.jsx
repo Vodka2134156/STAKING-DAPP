@@ -1,38 +1,82 @@
 import React, { useState } from 'react';
-import { TonConnectButton, useTonAddress,useTonConnectUI  } from '@tonconnect/ui-react';
+import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import { Address, TonClient, TupleBuilder, beginCell, toNano } from '@ton/ton';
+import { getHttpEndpoint } from '@orbs-network/ton-access';
 
 import './App.css';
 
 function App() {
-    const [tonConnectUI] = useTonConnectUI();
+  const [tonConnectUI] = useTonConnectUI();
   const [stakedBalance, setStakedBalance] = useState(5000);
   const [unclaimedEarnings, setUnclaimedEarnings] = useState(1);
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const walletAddress = useTonAddress();
 
-
+  const STAKING_ADDRESS = Address.parse("EQAJX1AKb3aKd1BmGGNfi-nbONo8cvSN4aUCRHLB6HFKyHns");
+  const MIXER_ADDRESS = Address.parse("EQAdFbynSUlzIlh_I4fXuYaer3rvY0TG0BK-NQZ-Y871pZoM");
+  
+  const getClient = async () => {
+    const endpoint = await getHttpEndpoint(); 
+    return new TonClient({ endpoint });
+  }
+  
   const handleDeposit = async () => {
     if (depositAmount > 0) {
-        const transaction = {
-            messages: [
-                {
-                    address: walletAddress, 
-                    amount: depositAmount 
-                }
-            ]
-        
-        }
-        //I made here a simple tx change to deposit mixer tx
       try {
         const amount = parseFloat(depositAmount);
+        
+        const client = await getClient();
+
+        const builder = new TupleBuilder();
+        builder.writeAddress(Address.parse(walletAddress));
+        const args = builder.build();
+        
+        const response = await client.runMethod(
+          MIXER_ADDRESS,
+          "get_wallet_address",
+          args,
+        );
+
+        const jettonWallet = response.stack.readAddressOpt();
+
+        const forwardPayload = beginCell()
+          .storeUint(0, 32)
+          .storeStringTail('STAKE $MIXER')
+          .endCell();
+
+        const body = beginCell()
+          .storeUint(0xf8a7ea5, 32)
+          .storeUint(0, 64)
+          .storeCoins(toNano(amount))
+          .storeAddress(STAKING_ADDRESS)
+          .storeAddress(STAKING_ADDRESS)
+          .storeBit(0)
+          .storeCoins(10000000)
+          .storeBit(1)
+          .storeRef(forwardPayload)
+          .endCell();
+
+
+        const transaction = {
+          validUntil: Math.floor(Date.now() / 1000) + 360,
+          messages: [
+            {
+              address: jettonWallet.toString(), 
+              amount: toNano(0.123).toString(),
+              payload: body.toBoc().toString('base64'), 
+            }
+          ]
+        }
+
+        console.log('Transaction:', transaction);
       
         await tonConnectUI.sendTransaction(transaction);
         setStakedBalance(stakedBalance + amount);
         setDepositAmount('');
+        setUnclaimedEarnings(0);
       } catch (error) {
         console.error('Transaction failed:', error);
-     
       }
     }
   };
@@ -41,28 +85,59 @@ function App() {
 
   const handleWithdraw = async() => {
     if (withdrawalAmount > 0 && withdrawalAmount <= stakedBalance) {
-      const transaction = {
-        messages: [
-            {
-                address: "0:412410771DA82CBA306A55FA9E0D43C9D245E38133CB58F1457DFB8D5CD8892F", 
-                amount: withdrawalAmount 
-            }
-        ]
-    
-    }
-    //I made here a simple tx change to widraw mixer tx
-  try {
-  
-    await tonConnectUI.sendTransaction(transaction);
-   
-  } catch (error) {
-    console.error('Transaction failed:', error);
- 
-  }
-  };};
+      try {
+        const amount = parseFloat(withdrawalAmount);
 
-  const handleClaimRewards = () => {
-    setUnclaimedEarnings(1);
+        const msg_body = beginCell()
+          .storeUint(4, 32)
+          .storeCoins(toNano(amount))
+          .endCell();
+
+        const transaction = {
+          validUntil: Math.floor(Date.now() / 1000) + 360,
+          messages: [
+            {
+              address: STAKING_ADDRESS.toString(), 
+              amount: toNano(0.123).toString(),
+              payload: msg_body.toBoc().toString('base64'), 
+            }
+          ]
+        }
+      
+        await tonConnectUI.sendTransaction(transaction);
+        setStakedBalance(stakedBalance - amount);
+        setWithdrawalAmount('');
+        setUnclaimedEarnings(0);
+      } catch (error) {
+        console.error('Transaction failed:', error);
+      }
+    };
+  };
+
+  const handleClaimRewards = async () => {
+    if (unclaimedEarnings > 0) {
+      try {
+        const msg_body = beginCell()
+          .storeUint(5, 32)
+          .endCell();
+
+        const transaction = {
+          validUntil: Math.floor(Date.now() / 1000) + 360,
+          messages: [
+            {
+              address: STAKING_ADDRESS.toString(), 
+              amount: toNano(0.123).toString(),
+              payload: msg_body.toBoc().toString('base64'), 
+            }
+          ]
+        }
+      
+        await tonConnectUI.sendTransaction(transaction);
+        setUnclaimedEarnings(0);
+      } catch (error) {
+        console.error('Transaction failed:', error);
+      }
+    }
   };
 
   return (
