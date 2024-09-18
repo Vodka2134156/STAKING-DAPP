@@ -12,6 +12,7 @@
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@orbs-network/ton-access": "^2.3.3",
+    "@rollup/plugin-inject": "^5.0.5",
     "@ton/core": "^0.58.1",
     "@ton/crypto": "^3.3.0",
     "@ton/ton": "^15.0.0",
