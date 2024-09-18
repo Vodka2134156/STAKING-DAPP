@@ -1,22 +1,55 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import inject from '@rollup/plugin-inject';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { Buffer } from 'buffer';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    esbuildOptions: {
-        // Node.js global to browser globalThis
-        define: {
-            global: 'globalThis'
-        },
-        // Enable esbuild polyfill plugins
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [
+      react(),
+      // Only inject Buffer in development with esbuild polyfills
+      ...(mode === 'development'
+        ? [
+            {
+              name: 'esbuild-polyfills',
+              apply: 'serve',
+              setup(build) {
+                build.onResolve({ filter: /^buffer$/ }, () => ({
+                  path: require.resolve('buffer/'),
+                }));
+              },
+            },
+          ]
+        : []),
+    ],
+    build: {
+      rollupOptions: {
         plugins: [
-            NodeGlobalsPolyfillPlugin({
-                buffer: true
-            })
-        ]
-    }
-  }
-})
+          // In production, inject Buffer using Rollup's inject plugin
+          inject({ Buffer: ['buffer', 'Buffer'] }),
+        ],
+      },
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        // Enable esbuild polyfill plugins in development
+        define: {
+          global: 'globalThis',
+        },
+        plugins: [
+          // Include Buffer polyfill for development mode
+          NodeGlobalsPolyfillPlugin({
+            buffer: true,
+          }),
+        ],
+      },
+    },
+    define:
+      mode === 'development'
+        ? {
+            global: 'globalThis', // Ensure globalThis is used in development
+          }
+        : undefined,
+  };
+});
