@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App';
-import { Buffer } from 'buffer';
 
-window.Buffer = Buffer;
 
 function DetailsPage() {
   const { number } = useParams(); // Get the unique number from the URL

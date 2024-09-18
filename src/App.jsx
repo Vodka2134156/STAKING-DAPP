@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { Address, TonClient, TupleBuilder, beginCell, toNano } from '@ton/ton';
 import { getHttpEndpoint } from '@orbs-network/ton-access';
-import { Buffer } from 'buffer';
 
-window.Buffer = Buffer;
 import './App.css';
 
 function App() {
