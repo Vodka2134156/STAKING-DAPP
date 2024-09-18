@@ -3,6 +3,7 @@ import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui
 import { Address, TonClient, TupleBuilder, beginCell, toNano } from '@ton/ton';
 import { getHttpEndpoint } from '@orbs-network/ton-access';
 import { Buffer } from 'buffer';
+
 window.Buffer = Buffer;
 import './App.css';
 
