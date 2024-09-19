@@ -8,9 +8,15 @@ import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 export default defineConfig({
     plugins: [react(), tsconfigPaths()],
     server: {
-        port: 3001,
-        open: true
-    },
+        proxy: {
+          '/api/estimate': {
+            target: 'https://getstake-pwil4mmbgq-uc.a.run.app/',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api\/estimate/, ''),
+          },
+          
+        },
+      },
     resolve: {
         alias: {
             // This Rollup aliases are extracted from @esbuild-plugins/node-modules-polyfill, 
