@@ -224,7 +224,7 @@ function App() {
           </div>
           <div className="info-box">
             <h3>Unclaimed Rewards</h3>
-            <p>{unclaimedEarnings} TON</p>
+            <p>{unclaimedEarnings.toFixed(4)} TON</p>
           </div>
         </div>
 
