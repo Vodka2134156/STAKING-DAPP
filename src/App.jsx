@@ -19,7 +19,7 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);  
 
 
-  const STAKING_ADDRESS = Address.parse("EQAJX1AKb3aKd1BmGGNfi-nbONo8cvSN4aUCRHLB6HFKyHns");
+  const STAKING_ADDRESS = Address.parse("EQDPqj54bu-f9U6ou6J9ztFgAPGX36fcRdzDYk27gUGIRSc7");
   const MIXER_ADDRESS = Address.parse("EQAdFbynSUlzIlh_I4fXuYaer3rvY0TG0BK-NQZ-Y871pZoM");
 
   const getClient = async () => {
@@ -95,7 +95,7 @@ function App() {
           .storeAddress(STAKING_ADDRESS)
           .storeAddress(STAKING_ADDRESS)
           .storeBit(0)
-          .storeCoins(10000000)
+          .storeCoins(50000000)
           .storeBit(1)
           .storeRef(forwardPayload)
           .endCell();
