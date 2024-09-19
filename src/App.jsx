@@ -45,7 +45,7 @@ function App() {
       console.log(data)
 
       // Assuming the API returns `rewards` and `stake` in the response
-      setUnclaimedEarnings(data.data.rewards);
+      setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
       setmixerbalance(data.data.mixerBalance)
       console.log(mixerbalance)
