@@ -118,6 +118,7 @@ function App() {
         setDepositAmount('');
         
       } catch (error) {
+        setShowPopup(false);
         console.error('Transaction failed:', error);
       }
     }
@@ -151,6 +152,7 @@ function App() {
         setWithdrawalAmount('');
 
       } catch (error) {
+        setShowPopup(false);
         console.error('Transaction failed:', error);
       }
     }
@@ -180,6 +182,7 @@ function App() {
         
       } catch (error) {
         console.error('Transaction failed:', error);
+        setShowPopup(false);
       }
     }
   };
