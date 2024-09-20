@@ -20,7 +20,7 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react';
 
 // This manifest is used temporarily for development purposes
 const manifestUrl = 
-  "https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json";
+  "https://raw.githubusercontent.com/Vodka2134156/STAKING-DAPP/main/public/manifest.json";
 
 // Render the App component wrapped with TonConnectUIProvider and Router
 ReactDOM.createRoot(document.getElementById('root')).render(
