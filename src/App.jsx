@@ -19,7 +19,7 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);  
 
 
-  const STAKING_ADDRESS = Address.parse("EQCG7qktJBrPHIRnT96khoRC-bhpNchzNTrNKQZ6xqDC9KT-");
+  const STAKING_ADDRESS = Address.parse("EQA5fDrYjD1EH5XDLM-bB_EoKd9o2MqAQ7Xg9SUazfEdpcYg");
   const MIXER_ADDRESS = Address.parse("EQAdFbynSUlzIlh_I4fXuYaer3rvY0TG0BK-NQZ-Y871pZoM");
 
   const getClient = async () => {
