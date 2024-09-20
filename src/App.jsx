@@ -17,6 +17,7 @@ function App() {
   const [mixerbalance, setmixerbalance] = useState('');
   const walletAddress = useTonAddress();
   const [showPopup, setShowPopup] = useState(false);  
+  const [penalty, setPenalty] = useState(0);
 
 
   const STAKING_ADDRESS = Address.parse("EQAhNTQ7cPRlOuTNtRzllZPqGB74EXe0PgWwHcQKGQP47mPq");
@@ -48,6 +49,7 @@ function App() {
       setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
       setmixerbalance(data.data.mixerBalance)
+      setPenalty(data.data.penalty)
       console.log(mixerbalance)
     } catch (error) {
       console.error('Failed to fetch staking data:', error);
@@ -204,7 +206,7 @@ function App() {
       </header>
 
       <div className="staking-card">
-          <h1>
+      <h1 style={{ fontFamily: 'Roboto, sans-serif', fontWeight: '500' }}>
       <img
         src={mixerLogo}
         alt="MIXER Logo"
@@ -216,7 +218,7 @@ function App() {
           top: '10px' 
         }}
       />
-      Stake MIXER
+      Stake $MIXER
     </h1>
 
 
@@ -254,7 +256,7 @@ function App() {
     <input
       type="number"
       value={depositAmount}
-      placeholder="Enter amount"
+      placeholder="Enter Amount To Deposit"
       onChange={(e) => setDepositAmount(e.target.value)}
     />
 
@@ -278,9 +280,13 @@ function App() {
             <input
               type="number"
               value={withdrawalAmount}
-              placeholder="Enter amount"
+              placeholder="Enter Amount To Widraw"
               onChange={(e) => setWithdrawalAmount(e.target.value)}
             />
+            <p style={{ color: 'red', fontWeight: '150' }}>
+  Warning: If you withdraw all, you will suffer from a penalty of {(penalty / Math.pow(10, 9)).toFixed(3)} MIXER.
+</p>
+      
             <button onClick={handleWithdraw}>Withdraw</button>
           </div>
         )}
