@@ -223,11 +223,11 @@ function App() {
         <div className="staked-info">
           <div className="info-box">
             <h3>Staked Balance</h3>
-            <p>{stakedBalance.toLocaleString()} MIXER</p>
+            <p>{(stakedBalance ?? 0).toLocaleString()} MIXER</p>
           </div>
           <div className="info-box">
             <h3>Unclaimed Rewards</h3>
-            <p>{unclaimedEarnings.toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
+            <p>{(unclaimedEarnings ?? 0).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
           </div>
         </div>
 
@@ -247,7 +247,7 @@ function App() {
         onClick={() => setDepositAmount(mixerbalance.toString())}
         style={{ cursor: 'pointer' }}
       >
-        Your Mixer balance: {mixerbalance.toLocaleString()} MIXER
+        Your Mixer balance: {(mixerbalance ?? 0).toLocaleString()} MIXER
       </span>
     </div>
 
@@ -272,7 +272,7 @@ function App() {
         onClick={() => setWithdrawalAmount(stakedBalance.toString())}
         style={{ cursor: 'pointer' }}
       >
-        Your Staked balance: {stakedBalance.toLocaleString()} MIXER
+        Your Staked balance: {(stakedBalance ?? 0).toLocaleString()} MIXER
       </span>
     </div>
             <input
