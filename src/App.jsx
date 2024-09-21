@@ -20,7 +20,7 @@ function App() {
   const [penalty, setPenalty] = useState(0);
 
 
-  const STAKING_ADDRESS = Address.parse("EQC2WTB5RSAdOj0pxLmgUtBtu9eOsxcg0GV2jb5SQ8OOg3uL");
+  const STAKING_ADDRESS = Address.parse("EQC-rsMN46xK-LDktUOFjwOM0pyMTuHpntCxON7DhhwjnSfk");
   const MIXER_ADDRESS = Address.parse("EQAdFbynSUlzIlh_I4fXuYaer3rvY0TG0BK-NQZ-Y871pZoM");
 
   const getClient = async () => {
