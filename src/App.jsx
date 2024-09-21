@@ -17,6 +17,7 @@ function App() {
   const [mixerbalance, setmixerbalance] = useState('');
   const walletAddress = useTonAddress();
   const [showPopup, setShowPopup] = useState(false);  
+  const [penalty, setPenalty] = useState(0);
 
 
   const STAKING_ADDRESS = Address.parse("EQC2WTB5RSAdOj0pxLmgUtBtu9eOsxcg0GV2jb5SQ8OOg3uL");
@@ -27,7 +28,7 @@ function App() {
     return new TonClient({ endpoint });
   };
 
-  // Function to fetch staked balance and unclaimed earnings
+
   const fetchStakingData = async () => {
     try {
       const apiUrl = '/api/estimate';
@@ -44,25 +45,25 @@ function App() {
       const data = await response.json();
       console.log(data)
 
-      // Assuming the API returns `rewards` and `stake` in the response
+  
       setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
       setmixerbalance(data.data.mixerBalance)
+      setPenalty(data.data.penalty)
       console.log(mixerbalance)
     } catch (error) {
       console.error('Failed to fetch staking data:', error);
     }
   };
 
-  // Poll the staking data every 20 seconds
   useEffect(() => {
     if (walletAddress) {
-      fetchStakingData(); // Fetch initially
-      const intervalId = setInterval(fetchStakingData, 20000); // Fetch every 20 seconds
+      fetchStakingData(); 
+      const intervalId = setInterval(fetchStakingData, 20000); 
 
-      return () => clearInterval(intervalId); // Cleanup on component unmount
+      return () => clearInterval(intervalId); 
     }
-  }, [walletAddress]); // Only start polling if the wallet address is available
+  }, [walletAddress]); 
 
   const handleDeposit = async () => {
     if (depositAmount > 0) {
@@ -191,7 +192,7 @@ function App() {
       showPopup && 
       (stakedBalance !== lastFetchedStakedBalance || unclaimedEarnings !== lastFetchedUnclaimedEarnings)
     ) {
-      setShowPopup(false);  // Hide the popup if balances change compared to last fetched values
+      setShowPopup(false);  
     }
   }, [stakedBalance, unclaimedEarnings, showPopup, lastFetchedStakedBalance, lastFetchedUnclaimedEarnings]);
 
@@ -204,7 +205,7 @@ function App() {
       </header>
 
       <div className="staking-card">
-          <h1>
+      <h1 style={{ fontFamily: 'Roboto, sans-serif', fontWeight: '500' }}>
       <img
         src={mixerLogo}
         alt="MIXER Logo"
@@ -216,7 +217,7 @@ function App() {
           top: '10px' 
         }}
       />
-      Stake MIXER
+      Stake $MIXER
     </h1>
 
 
@@ -241,7 +242,7 @@ function App() {
     <h3>Deposit MIXER</h3>
 
     <div className="balance-display">
-      {/* Make the balance clickable to auto-fill the input */}
+     
       <span 
         className="balance-label" 
         onClick={() => setDepositAmount(mixerbalance.toString())}
@@ -254,7 +255,7 @@ function App() {
     <input
       type="number"
       value={depositAmount}
-      placeholder="Enter amount"
+      placeholder="Enter Amount To Deposit"
       onChange={(e) => setDepositAmount(e.target.value)}
     />
 
@@ -278,9 +279,14 @@ function App() {
             <input
               type="number"
               value={withdrawalAmount}
-              placeholder="Enter amount"
+              placeholder="Enter Amount To Widraw"
               onChange={(e) => setWithdrawalAmount(e.target.value)}
             />
+            {penalty >= 999999 && (
+            <p style={{ color: 'red', fontWeight: '150' }}>
+  Warning: If you withdraw all, you will suffer from a penalty of {(penalty / Math.pow(10, 9)).toFixed(3)} MIXER.
+</p>)}
+      
             <button onClick={handleWithdraw}>Withdraw</button>
           </div>
         )}
