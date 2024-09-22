@@ -241,11 +241,11 @@ function App() {
         <div className="staked-info">
           <div className="info-box">
             <h3>Staked Balance</h3>
-            <p>{(isNaN(stakedBalance) ? '-' : stakedBalance).toLocaleString()} MIXER</p>
+            <p>{stakedBalance !== '' ? stakedBalance.toLocaleString() : 0} MIXER</p>
           </div>
           <div className="info-box">
             <h3>Unclaimed Rewards</h3>
-            <p>{(isNaN(unclaimedEarnings) ? '-' : unclaimedEarnings).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
+            <p>{unclaimedEarnings !== '' ? unclaimedEarnings.toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5}) : 0} TON</p>
           </div>
           <div className="info-box">
             <h3>Annual APR %</h3>
