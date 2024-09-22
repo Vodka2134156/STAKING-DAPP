@@ -9,6 +9,7 @@ import './App.css';
 function App() {
   const [tonConnectUI] = useTonConnectUI();
   const [stakedBalance, setStakedBalance] = useState(0);
+  const [totalStaked, setTotalStaked] = useState(0);
   const [unclaimedEarnings, setUnclaimedEarnings] = useState(0);
   const [depositAmount, setDepositAmount] = useState('');
   const [lastFetchedStakedBalance, setLastFetchedStakedBalance] = useState(stakedBalance);
@@ -51,6 +52,7 @@ function App() {
   
       setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
+      setTotalStaked(data.data.totalStaked/Math.pow(10,9));
       setmixerbalance(data.data.mixerBalance);
       setMixerPrice(data.data.mixerPrice);
       setMixerTonPrice(data.data.mixerTonPrice);
