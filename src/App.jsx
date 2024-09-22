@@ -247,7 +247,7 @@ function App() {
           </div>
           <div className="info-box">
             <h3>Annual APR %</h3>
-            <p>{apr ? `${apr} %` : '-'}</p>
+            <p>{`${apr ?? 0}%`}</p>
           </div>
         </div>
 
