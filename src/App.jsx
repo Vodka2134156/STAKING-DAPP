@@ -239,15 +239,15 @@ function App() {
         <div className="staked-info">
           <div className="info-box">
             <h3>Staked Balance</h3>
-            <p>{(isNaN(stakedBalance) ? 0 : stakedBalance).toLocaleString()} MIXER</p>
+            <p>{(isNaN(stakedBalance) ? '-' : stakedBalance).toLocaleString()} MIXER</p>
           </div>
           <div className="info-box">
             <h3>Unclaimed Rewards</h3>
-            <p>{(isNaN(unclaimedEarnings) ? 0 : unclaimedEarnings).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
+            <p>{(isNaN(unclaimedEarnings) ? '-' : unclaimedEarnings).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
           </div>
           <div className="info-box">
             <h3>Annual APR %</h3>
-            <p>{apr ? `${apr} %` : ''}</p>
+            <p>{apr ? `${apr} %` : '-'}</p>
           </div>
         </div>
 
@@ -267,7 +267,7 @@ function App() {
         onClick={() => setDepositAmount(mixerbalance.toString())}
         style={{ cursor: 'pointer' }}
       >
-        Your Mixer balance: {(mixerbalance ?? 0).toLocaleString()} MIXER
+        Your Mixer balance: {mixerbalance ? mixerbalance !== '' ? mixerbalance.toLocaleString() : '-' : '-'} MIXER
       </span>
     </div>
 
