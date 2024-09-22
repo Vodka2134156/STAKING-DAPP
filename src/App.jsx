@@ -300,7 +300,7 @@ function App() {
             <input
               type="number"
               value={withdrawalAmount}
-              placeholder="Enter Amount To Widraw"
+              placeholder="Enter Amount To Withdraw"
               onChange={(e) => setWithdrawalAmount(e.target.value)}
             />
             {penalty >= 999999 && (
