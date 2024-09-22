@@ -15,6 +15,9 @@ function App() {
   const [lastFetchedUnclaimedEarnings, setLastFetchedUnclaimedEarnings] = useState(unclaimedEarnings);
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const [mixerbalance, setmixerbalance] = useState('');
+  const [mixerPrice, setMixerPrice] = useState('');
+  const [mixerTonPrice, setMixerTonPrice] = useState('');
+  const [apr, setApr] = useState('');
   const walletAddress = useTonAddress();
   const [showPopup, setShowPopup] = useState(false);  
   const [penalty, setPenalty] = useState(0);
@@ -48,9 +51,12 @@ function App() {
   
       setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
-      setmixerbalance(data.data.mixerBalance)
-      setPenalty(data.data.penalty)
-      console.log(mixerbalance)
+      setmixerbalance(data.data.mixerBalance);
+      setMixerPrice(data.data.mixerPrice);
+      setMixerTonPrice(data.data.mixerTonPrice);
+      setApr(data.data.apr);
+      setPenalty(data.data.penalty);
+      console.log(mixerbalance);
     } catch (error) {
       console.error('Failed to fetch staking data:', error);
     }
@@ -60,8 +66,16 @@ function App() {
     if (walletAddress) {
       fetchStakingData(); 
       const intervalId = setInterval(fetchStakingData, 20000); 
-
       return () => clearInterval(intervalId); 
+    } else {
+      setDepositAmount('');
+      setLastFetchedStakedBalance(0);
+      setLastFetchedUnclaimedEarnings(0);
+      setStakedBalance(0);
+      setmixerbalance('');
+      setPenalty(0);
+      setWithdrawalAmount('');
+      setUnclaimedEarnings(0);
     }
   }, [walletAddress]); 
 
@@ -187,6 +201,7 @@ function App() {
       }
     }
   };
+
   useEffect(() => {
     if (
       showPopup && 
@@ -224,11 +239,15 @@ function App() {
         <div className="staked-info">
           <div className="info-box">
             <h3>Staked Balance</h3>
-            <p>{(stakedBalance ?? 0).toLocaleString()} MIXER</p>
+            <p>{(isNaN(stakedBalance) ? 0 : stakedBalance).toLocaleString()} MIXER</p>
           </div>
           <div className="info-box">
             <h3>Unclaimed Rewards</h3>
-            <p>{(unclaimedEarnings ?? 0).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
+            <p>{(isNaN(unclaimedEarnings) ? 0 : unclaimedEarnings).toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5})} TON</p>
+          </div>
+          <div className="info-box">
+            <h3>Annual APR %</h3>
+            <p>{apr}%</p>
           </div>
         </div>
 
