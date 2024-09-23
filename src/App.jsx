@@ -25,6 +25,7 @@ function App() {
   const [tonConnectUI] = useTonConnectUI();
   const [stakedBalance, setStakedBalance] = useState(0);
   const [totalStaked, setTotalStaked] = useState(0);
+  const [stakers, setStakers] = useState(0);
   const [unclaimedEarnings, setUnclaimedEarnings] = useState(0);
   const [depositAmount, setDepositAmount] = useState('');
   const [lastFetchedStakedBalance, setLastFetchedStakedBalance] = useState(stakedBalance);
@@ -68,7 +69,7 @@ function App() {
   
       setUnclaimedEarnings(data.data.rewards/Math.pow(10,9));
       setStakedBalance(data.data.stake/Math.pow(10,9));
-      setTotalStaked(data.data.totalStaked/Math.pow(10,9));
+      setStakers(data.data.stakers);
       setmixerbalance(data.data.mixerBalance);
       setMixerPrice(data.data.mixerPrice);
       setMixerTonPrice(data.data.mixerTonPrice);
@@ -273,6 +274,7 @@ function App() {
     <div className="info-box">
       <h3>Total Stakes</h3>
       <p>{convertToShort(totalStaked??0)} USD</p> {/* Adjust calculation as needed */}
+      <p>Stakers: {stakers??0}</p>
     </div>
     <div className="info-box">
       <h3>APR</h3>
