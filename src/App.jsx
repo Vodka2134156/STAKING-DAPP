@@ -274,13 +274,15 @@ function App() {
     <div className="info-box">
       <h3>Total Stakes</h3>
       <p>{convertToShort(totalStaked??0)} USD</p> {/* Adjust calculation as needed */}
-      <p>Stakers: {stakers??0}</p>
+      
     </div>
     <div className="info-box">
       <h3>APR</h3>
       <p>{apr??0}%</p> {/* Update with actual APR */}
     </div>
+    
   </div>
+  <p>Stakers: {stakers??0}</p>
 </div>
 
         {unclaimedEarnings > 0 && (
