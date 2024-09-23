@@ -260,7 +260,7 @@ function App() {
     <div className="staked-info">
   <div className="info-row">
     <div className="info-box">
-      <h3>Staked Balance</h3>
+      <h3>Your Staked Balance</h3>
       <p>{(stakedBalance ?? 0).toLocaleString()} MIXER</p>
     </div>
     <div className="info-box">
@@ -271,7 +271,7 @@ function App() {
 
   <div className="info-row">
     <div className="info-box">
-      <h3>Total Stake</h3>
+      <h3>Total Stakes</h3>
       <p>{convertToShort(totalStaked??0)} USD</p> {/* Adjust calculation as needed */}
     </div>
     <div className="info-box">
