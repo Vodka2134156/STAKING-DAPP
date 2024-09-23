@@ -5,6 +5,21 @@ import { getHttpEndpoint } from '@orbs-network/ton-access';
 
 import mixerLogo from './assets/mixer.svg';
 import './App.css';
+const convertToShort = (number) => {
+  if (number === undefined) {
+    return '';
+  }
+
+  if (number >= 1e9) {
+    return (number / 1e9).toFixed(2) + 'B';
+  } else if (number >= 1e6) {
+    return (number / 1e6).toFixed(2) + 'M';
+  } else if (number >= 1e3) {
+    return (number / 1e3).toFixed(2) + 'K';
+  } else {
+    return number.toString();
+  }
+};
 
 function App() {
   const [tonConnectUI] = useTonConnectUI();
@@ -31,6 +46,7 @@ function App() {
     const endpoint = await getHttpEndpoint();
     return new TonClient({ endpoint });
   };
+  
 
 
   const fetchStakingData = async () => {
@@ -58,6 +74,7 @@ function App() {
       setMixerTonPrice(data.data.mixerTonPrice);
       setApr(data.data.apr);
       setPenalty(data.data.penalty);
+      setTotalStaked((data.data.totalStaked/Math.pow(10,9))*data.data.mixerPrice)
       console.log(mixerbalance);
     } catch (error) {
       console.error('Failed to fetch staking data:', error);
@@ -80,6 +97,8 @@ function App() {
       setUnclaimedEarnings(0);
     }
   }, [walletAddress]); 
+ 
+ 
 
   const handleDeposit = async () => {
     if (depositAmount > 0) {
@@ -236,22 +255,31 @@ function App() {
       />
       Stake $MIXER
     </h1>
+        
 
+    <div className="staked-info">
+  <div className="info-row">
+    <div className="info-box">
+      <h3>Staked Balance</h3>
+      <p>{(stakedBalance ?? 0).toLocaleString()} MIXER</p>
+    </div>
+    <div className="info-box">
+      <h3>Unclaimed Rewards</h3>
+      <p>{(unclaimedEarnings ?? 0).toLocaleString('en-US', { maximumFractionDigits: 4, maximumSignificantDigits: 5 })} TON</p>
+    </div>
+  </div>
 
-        <div className="staked-info">
-          <div className="info-box">
-            <h3>Staked Balance</h3>
-            <p>{stakedBalance !== '' ? stakedBalance.toLocaleString() : 0} MIXER</p>
-          </div>
-          <div className="info-box">
-            <h3>Unclaimed Rewards</h3>
-            <p>{unclaimedEarnings !== '' ? unclaimedEarnings.toLocaleString('en-US', {maximumFractionDigits: 4, maximumSignificantDigits: 5}) : 0} TON</p>
-          </div>
-          <div className="info-box">
-            <h3>Annual APR %</h3>
-            <p>{`${apr ?? 0}%`}</p>
-          </div>
-        </div>
+  <div className="info-row">
+    <div className="info-box">
+      <h3>Total Stake</h3>
+      <p>{convertToShort(totalStaked??0)} USD</p> {/* Adjust calculation as needed */}
+    </div>
+    <div className="info-box">
+      <h3>APR</h3>
+      <p>{apr??0}%</p> {/* Update with actual APR */}
+    </div>
+  </div>
+</div>
 
         {unclaimedEarnings > 0 && (
           <div className="claim-rewards-section">

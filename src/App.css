@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
   font-family:"Roboto", Arial, sans-serif;
   background-color: #1d1f27;
@@ -56,22 +56,31 @@ header {
   flex-direction: column;
   align-items: center;
   margin-bottom: 15px;
+  width: 100%;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  width: 105%;
 }
 
 .info-box {
   background-color: #3b3f48;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 20px;
   text-align: center;
-  width: 100%;
-  max-width: 150px;
-  margin: 5px 0;
+  width: 48%; /* Ensure two boxes fit in a row */
+  margin: 7px 0;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .info-box:hover {
   background-color: #444;
   transform: translateY(-5px);
+}
+.info-row {
+  gap: 7px; /* Adjust the value to change space between columns */
 }
 
 .info-box h3 {
@@ -86,6 +95,7 @@ header {
   font-weight: bold;
   color: #fff;
 }
+
 
 input[type="number"] {
   font-family:"Roboto", Arial, sans-serif;
