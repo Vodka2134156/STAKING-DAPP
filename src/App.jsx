@@ -264,7 +264,7 @@ function App() {
       <p>{(stakedBalance ?? 0).toLocaleString()} MIXER</p>
     </div>
     <div className="info-box">
-      <h3>Unclaimed Rewards</h3>
+      <h3>Your Unclaimed Rewards</h3>
       <p>{(unclaimedEarnings ?? 0).toLocaleString('en-US', { maximumFractionDigits: 4, maximumSignificantDigits: 5 })} TON</p>
     </div>
   </div>
