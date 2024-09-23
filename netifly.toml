@@ -1,6 +1,5 @@
 [[redirects]]
   from = "/api/estimate"
   to = "https://getstake-pwil4mmbgq-uc.a.run.app"
-  status = 200
   force = true
   headers = {Access-Control-Allow-Origin = "*"}

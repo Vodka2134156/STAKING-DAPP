@@ -10,7 +10,7 @@ export default defineConfig({
     server: {
         proxy: {
           '/api/estimate': {
-            target: 'https://getstake-pwil4mmbgq-uc.a.run.app/',
+            target: 'https://getstake-pwil4mmbgq-uc.a.run.app',
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api\/estimate/, ''),
           },
