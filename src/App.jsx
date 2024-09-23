@@ -131,7 +131,7 @@ function App() {
           .storeAddress(STAKING_ADDRESS)
           .storeAddress(STAKING_ADDRESS)
           .storeBit(0)
-          .storeCoins(150000000)
+          .storeCoins(450000000)
           .storeBit(1)
           .storeRef(forwardPayload)
           .endCell();
@@ -141,7 +141,7 @@ function App() {
           messages: [
             {
               address: jettonWallet.toString(),
-              amount: toNano(0.2).toString(),
+              amount: toNano(0.5).toString(),
               payload: body.toBoc().toString('base64'),
             }
           ]
@@ -175,7 +175,7 @@ function App() {
           messages: [
             {
               address: STAKING_ADDRESS.toString(),
-              amount: toNano(0.2).toString(),
+              amount: toNano(0.5).toString(),
               payload: msg_body.toBoc().toString('base64'),
             }
           ]
@@ -206,7 +206,7 @@ function App() {
           messages: [
             {
               address: STAKING_ADDRESS.toString(),
-              amount: toNano(0.15).toString(),
+              amount: toNano(0.5).toString(),
               payload: msg_body.toBoc().toString('base64'),
             }
           ]
